@@ -84,3 +84,25 @@ describe("Tests the /get/ route and /delete/ route", () => {
     expect(get_res_after_delete.statusCode).toEqual(500);
   });
 });
+
+describe("Tests getting and updating a non-existent card", () => {
+  it("should return 500 for a non-existent card", async () => {
+    const get_res = await server.inject({
+      method: "GET",
+      url: "/get/123456789",
+    });
+    expect(get_res.statusCode).toEqual(500);
+
+    const update_res = await server.inject({
+      method: "PUT",
+      url: "/update/123456789",
+      payload: {
+        description: "Updated description",
+        created_at: "2024-11-19T00:00:00.000Z",
+        scheduled: "2024-11-19T00:00:00.000Z",
+        title: "Updated title",
+      },
+    });
+    expect(update_res.statusCode).toEqual(500);
+  });
+});
